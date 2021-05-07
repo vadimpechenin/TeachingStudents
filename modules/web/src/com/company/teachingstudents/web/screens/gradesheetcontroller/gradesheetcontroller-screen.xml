@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
         caption="msg://gradesheetcontrollerScreen.caption"
         messagesPack="com.company.teachingstudents.web.screens">
     <data>
@@ -8,7 +9,14 @@
             <view extends="_local"/>
             <loader id="studentsDl">
                 <query>
-                    <![CDATA[select e from teachingstudents_Student e where e.group = '2420']]>
+                    <![CDATA[select e from teachingstudents_Student e]]>
+                    <condition>
+                        <and>
+                            <c:jpql>
+                                <c:where>e.group =:group</c:where>
+                            </c:jpql>
+                        </and>
+                    </condition>
                 </query>
             </loader>
         </collection>
@@ -35,13 +43,15 @@
                           caption="showSelection"/>
             </hbox>
             <table id="studentsTable"
+                   editable="true"
                         dataContainer="studentDc"
                         width="100%">
                 <columns>
                     <column id="name"/>
                     <column id="group"/>
                     <column id="emailAddress"/>
-                    <column id="averageMark"/>
+                    <column id="averageMark"
+                            editable="true"/>
                 </columns>
             </table>
             <button action="rateStudents"/>

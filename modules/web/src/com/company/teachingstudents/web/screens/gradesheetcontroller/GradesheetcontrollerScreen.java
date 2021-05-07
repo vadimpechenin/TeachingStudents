@@ -2,6 +2,8 @@ package com.company.teachingstudents.web.screens.gradesheetcontroller;
 
 import ch.qos.logback.core.util.Loader;
 import com.haulmont.cuba.gui.Screens;
+import com.haulmont.cuba.gui.WindowParam;
+import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 
 import com.haulmont.cuba.gui.Notifications;
@@ -22,14 +24,24 @@ import javax.inject.Inject;
 @LoadDataBeforeShow
 public class GradesheetcontrollerScreen extends Screen {
 
-    private String group;
 
-    public String getGroup() {
-        return group;
-    }
+
+    @Inject
+    private CollectionLoader<Student> studentsDl;
+
+    //Передача параметра с первого экрана, взято из https://doc.cuba-platform.com/manual-latest-ru/gui_data_loaders.html
+    /*@Subscribe("groupFilterField")
+    private void onGroupFilterFieldValueChange(HasValue.ValueChangeEvent<Boolean> event) {
+        if (event.getValue()) {
+            studentsDl.setParameter("group", true);
+        } else {
+            studentsDl.removeParameter("group");
+        }
+        studentsDl.load();
+    } */
 
     public void setGroup(String group) {
-        this.group = group;
+        studentsDl.setParameter("group", group);
     }
 
     @Inject

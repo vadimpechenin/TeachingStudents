@@ -4,6 +4,7 @@ package com.company.teachingstudents.web.screens.screenratereport;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.global.MetadataTools;
 import com.haulmont.cuba.gui.Notifications;
+import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.components.Button;
 import com.haulmont.cuba.gui.components.ContentMode;
 import com.haulmont.cuba.gui.model.InstanceContainer;
@@ -57,5 +58,6 @@ public class ScreenRateReport extends Screen {
         GradesheetcontrollerScreen screen = screens.create(GradesheetcontrollerScreen.class);
         screen.setGroup(gradeSheet.getGroup());
         screens.show(screen);
+
     }
 }
