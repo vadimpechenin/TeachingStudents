@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://gradeSheetBrowse.caption"
+        focusComponent="gradeSheetsTable"
+        messagesPack="com.company.teachingstudents.web.screens.gradesheet">
+    <data readOnly="true">
+        <collection id="gradeSheetsDc"
+                    class="com.company.teachingstudents.entity.GradeSheet">
+            <view extends="_local">
+                <property name="universityTeacher" view="_minimal"/>
+            </view>
+            <loader id="gradeSheetsDl">
+                <query>
+                    <![CDATA[select e from teachingstudents_GradeSheet e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="gradeSheetsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="gradeSheetsTable"
+                dataLoader="gradeSheetsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="gradeSheetsTable"
+                    width="100%"
+                    dataContainer="gradeSheetsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+                <action id="add" type="add"/>
+            </actions>
+            <columns>
+                <column id="itemName"/>
+                <column id="group"/>
+                <column id="universityTeacher"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="gradeSheetsTable.create"/>
+                <button id="editBtn" action="gradeSheetsTable.edit"/>
+                <button id="removeBtn" action="gradeSheetsTable.remove"/>
+                <button id="addBtn" action="gradeSheetsTable.add"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

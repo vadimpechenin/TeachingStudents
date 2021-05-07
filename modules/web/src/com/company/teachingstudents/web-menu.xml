@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
+    <menu id="application-teachingstudents" insertBefore="administration" caption="mainMsg://menu_config.application-teachingstudents">
+        <item screen="teachingstudents_UniversityTeacher.browse"
+              caption="mainMsg://menu_config.teachingstudents_UniversityTeacher.browse"/>
+        <item screen="teachingstudents_GradeSheet.browse"
+              caption="mainMsg://menu_config.teachingstudents_GradeSheet.browse"/>
+        <item screen="teachingstudents_Student_1.browse"
+              caption="mainMsg://menu_config.teachingstudents_Student_1.browse"/>
+        <item screen="teachingstudents_Student.browse" caption="mainMsg://menu_config.teachingstudents_Student.browse"/>
+        <item screen="teachingstudents_Gradesheetcontroller"
+              caption="mainMsg://menu_config.teachingstudents_Gradesheetcontroller"/>
+        <item screen="teachingstudents_GradesheetcontrollerScreen"
+              caption="mainMsg://menu_config.teachingstudents_GradesheetcontrollerScreen"/>
+        <item screen="teachingstudents_Task.browse" caption="mainMsg://menu_config.teachingstudents_Task.browse"/>
+        <item screen="teachingstudents_Report.browse" caption="mainMsg://menu_config.teachingstudents_Report.browse"/>
+        <item screen="teachingstudents_ScreenRateReport"
+              caption="mainMsg://menu_config.teachingstudents_ScreenRateReport"/>
+    </menu>
+</menu-config>

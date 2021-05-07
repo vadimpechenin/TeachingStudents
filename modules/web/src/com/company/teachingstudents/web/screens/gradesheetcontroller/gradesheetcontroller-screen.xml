@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://gradesheetcontrollerScreen.caption"
+        messagesPack="com.company.teachingstudents.web.screens">
+    <data>
+        <collection id="studentDc"
+                    class="com.company.teachingstudents.entity.Student">
+            <view extends="_local"/>
+            <loader id="studentsDl">
+                <query>
+                    <![CDATA[select e from teachingstudents_Student e where e.group = '2420']]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+
+
+        <actions>
+            <action id="rateStudents"
+                    caption="Rate students"/>
+        </actions>
+
+        <layout expand="studentsTable"
+                spacing="true">
+            <hbox spacing="true">
+                <checkBox id="multiselect"
+                          caption="multiselect"/>
+                <checkBox id="sortable"
+                          caption="sortable"/>
+                <checkBox id="columnControlVisible"
+                          caption="columnControlVisible"/>
+                <checkBox id="reorderingAllowed"
+                          caption="reorderingAllowed"/>
+                <checkBox id="showSelection"
+                          caption="showSelection"/>
+            </hbox>
+            <table id="studentsTable"
+                        dataContainer="studentDc"
+                        width="100%">
+                <columns>
+                    <column id="name"/>
+                    <column id="group"/>
+                    <column id="emailAddress"/>
+                    <column id="averageMark"/>
+                </columns>
+            </table>
+            <button action="rateStudents"/>
+        </layout>
+</window>

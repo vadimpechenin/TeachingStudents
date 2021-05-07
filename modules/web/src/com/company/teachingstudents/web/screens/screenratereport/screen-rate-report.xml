@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+
+    caption="msg://screenRateReport.caption"
+    messagesPack="com.company.teachingstudents.web.screens">
+    <data>
+        <instance id="gradeSheetDc"
+                  class="com.company.teachingstudents.entity.GradeSheet"/>
+    </data>
+    <layout>
+        <hbox spacing="true">
+            <form dataContainer="gradeSheetDc">
+                <column width="250px">
+                    <textField id="itemNameField" property="itemName"/>
+                    <textField id="groupField" property="group"/>
+                    <pickerField id="universityTeacherField" property="universityTeacher"/>
+                </column>
+            </form>
+            <button id="showOrderBtn"
+                    align="MIDDLE_LEFT"
+                    caption="Show rate list"/>
+        </hbox>
+    </layout>
+</window>

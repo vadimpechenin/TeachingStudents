@@ -1,0 +1,1 @@
+drop table TEACHINGSTUDENTS_STUDENT__U36345 if exists cascade ;
