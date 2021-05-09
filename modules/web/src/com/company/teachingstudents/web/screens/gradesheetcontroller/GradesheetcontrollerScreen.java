@@ -1,8 +1,11 @@
 package com.company.teachingstudents.web.screens.gradesheetcontroller;
 
 import ch.qos.logback.core.util.Loader;
+import com.haulmont.cuba.core.global.CommitContext;
+import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.Screens;
 import com.haulmont.cuba.gui.WindowParam;
+import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 
@@ -18,16 +21,25 @@ import com.haulmont.cuba.gui.Fragments;
 
 import com.company.teachingstudents.web.screens.screenratereport.ScreenRateReport;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 @UiController("teachingstudents_GradesheetcontrollerScreen")
 @UiDescriptor("gradesheetcontroller-screen.xml")
 @LoadDataBeforeShow
 public class GradesheetcontrollerScreen extends Screen {
 
+    //Для сохранения оценок после их простановки
+    @Inject
+    private DataManager dataManager;
 
+    @Inject
+    private CollectionContainer<Student> studentDc;
 
     @Inject
     private CollectionLoader<Student> studentsDl;
+
+
 
     //Передача параметра с первого экрана, взято из https://doc.cuba-platform.com/manual-latest-ru/gui_data_loaders.html
     /*@Subscribe("groupFilterField")
@@ -39,6 +51,7 @@ public class GradesheetcontrollerScreen extends Screen {
         }
         studentsDl.load();
     } */
+    int g;
 
     public void setGroup(String group) {
         studentsDl.setParameter("group", group);
@@ -74,9 +87,15 @@ public class GradesheetcontrollerScreen extends Screen {
         columnControlVisible.setValue(studentsTable.getColumnControlVisible());
         reorderingAllowed.setValue(studentsTable.getColumnReorderingAllowed());
         showSelection.setValue(studentsTable.isShowSelection());
+        //Загрузка данных из БД
+        List<Student> studentList =dataManager.load(Student.class).list();
+
+        studentDc.setItems(studentList);
+
         /*studentsDl.setQuery(
                 "select e from sample$Product e left join e.customer c " +
                         "where c.id = :param$customer or c is null"); */
+        g = 0;
     }
 
     @Subscribe("multiselect")
@@ -104,8 +123,34 @@ public class GradesheetcontrollerScreen extends Screen {
         studentsTable.setShowSelection(Boolean.TRUE.equals(event.getValue()));
     }
 
+    //Загрузка данных из БД
+    /*List<AverageMark> list = dataManager.loadValues(
+            "select o.averageMark from teachingstudents_Student o")
+            .store("legacy_db")
+            .properties("averageMark")
+            .list();
+
+    private void saveAverageMark(List<AverageMark> toSave, List<averageMark> toDelete) {
+        CommitContext commitContext = new CommitContext(toSave, toDelete);
+        dataManager.commit(commitContext);
+    }*/
+    private void saveAverageMark(List<Student> toSave, List<Student> toDelete) {
+        CommitContext commitContext = new CommitContext(toSave, toDelete);
+        dataManager.commit(commitContext);
+    }
+
+
     @Subscribe("rateStudents")
     protected void onSomeActionActionPerformed(Action.ActionPerformedEvent event) {
+
+        //Сохранение оценок после их простановки
+        //saveAverageMark(studentList);
+        //List<Student> studentList =dataManager.load(Student.class).list();
+
+        //studentDc.setItems(studentList);
+
+        //dataManager.commit(studentDc.getItems());
+
         notifications.create()
                 .withCaption("Action performed")
                 .show();
