@@ -3,10 +3,13 @@ package com.company.teachingstudents.web.screens.gradesheetcontroller;
 import ch.qos.logback.core.util.Loader;
 import com.haulmont.cuba.core.global.CommitContext;
 import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.gui.Screens;
 import com.haulmont.cuba.gui.WindowParam;
 import com.haulmont.cuba.gui.model.CollectionContainer;
 import com.haulmont.cuba.gui.model.CollectionLoader;
+import com.haulmont.cuba.gui.model.CollectionChangeType;
+
 import com.haulmont.cuba.gui.screen.*;
 
 import com.haulmont.cuba.gui.Notifications;
@@ -39,8 +42,6 @@ public class GradesheetcontrollerScreen extends Screen {
     @Inject
     private CollectionLoader<Student> studentsDl;
 
-
-
     //Передача параметра с первого экрана, взято из https://doc.cuba-platform.com/manual-latest-ru/gui_data_loaders.html
     /*@Subscribe("groupFilterField")
     private void onGroupFilterFieldValueChange(HasValue.ValueChangeEvent<Boolean> event) {
@@ -51,7 +52,9 @@ public class GradesheetcontrollerScreen extends Screen {
         }
         studentsDl.load();
     } */
-    int g;
+
+    @Inject
+    private Metadata metadata;
 
     public void setGroup(String group) {
         studentsDl.setParameter("group", group);
@@ -95,7 +98,6 @@ public class GradesheetcontrollerScreen extends Screen {
         /*studentsDl.setQuery(
                 "select e from sample$Product e left join e.customer c " +
                         "where c.id = :param$customer or c is null"); */
-        g = 0;
     }
 
     @Subscribe("multiselect")
@@ -123,33 +125,21 @@ public class GradesheetcontrollerScreen extends Screen {
         studentsTable.setShowSelection(Boolean.TRUE.equals(event.getValue()));
     }
 
-    //Загрузка данных из БД
-    /*List<AverageMark> list = dataManager.loadValues(
-            "select o.averageMark from teachingstudents_Student o")
-            .store("legacy_db")
-            .properties("averageMark")
-            .list();
-
-    private void saveAverageMark(List<AverageMark> toSave, List<averageMark> toDelete) {
-        CommitContext commitContext = new CommitContext(toSave, toDelete);
-        dataManager.commit(commitContext);
-    }*/
+    //Метод для сохранения данных в БД
     private void saveAverageMark(List<Student> toSave, List<Student> toDelete) {
         CommitContext commitContext = new CommitContext(toSave, toDelete);
         dataManager.commit(commitContext);
     }
 
-
     @Subscribe("rateStudents")
     protected void onSomeActionActionPerformed(Action.ActionPerformedEvent event) {
 
+        // Создание пустого списка для delete метода сохранения
+        ArrayList<Student> people = new ArrayList<Student>();
+        //Создание списка для сохранения
+        List<Student> studentList = studentDc.getItems();
         //Сохранение оценок после их простановки
-        //saveAverageMark(studentList);
-        //List<Student> studentList =dataManager.load(Student.class).list();
-
-        //studentDc.setItems(studentList);
-
-        //dataManager.commit(studentDc.getItems());
+        saveAverageMark(studentList, people);
 
         notifications.create()
                 .withCaption("Action performed")
